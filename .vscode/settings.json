@@ -1,5 +1,6 @@
 {
     "java.project.sourcePaths": [
         "pa2_u3_p6_ds/src/main/java"
-    ]
+    ],
+    "java.compile.nullAnalysis.mode": "automatic"
 }
