@@ -25,7 +25,11 @@ public class MailService {
 
     }
 
+    @MedirTiempo
     public Mail buscarPorId(Integer id) {
+        String hilo = Thread.currentThread().getName();
+        System.out.println("Nombre del hilo buscarPorIdMail: "+hilo);
+        System.out.println("ID: " + Thread.currentThread().threadId());
         return this.mailRepo.findById(id);
 
     }

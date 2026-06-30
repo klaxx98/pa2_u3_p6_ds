@@ -8,8 +8,6 @@ import io.quarkus.runtime.QuarkusApplication;
 import io.quarkus.runtime.annotations.QuarkusMain;
 import jakarta.inject.Inject;
 import uce.edu.ec.pa.application.service.FacturaService;
-import uce.edu.ec.pa.application.service.MailService;
-import uce.edu.ec.pa.application.service.ReporteService;
 import uce.edu.ec.pa.domain.model.Factura;
 import uce.edu.ec.pa.domain.model.Mail;
 import uce.edu.ec.pa.domain.model.Reporte;
@@ -26,61 +24,33 @@ public class Main {
         @Inject
         private FacturaService facturaService;
 
-        @Inject
-        private MailService mailService;
-
-        @Inject
-        private ReporteService reporteService;
-
         @Override
         public int run(String... args) throws Exception {
 
-            System.out.println("Abriendo proyecto");
+            System.out.println("\nIniciando aplicación\n");
 
-            String hilo = Thread.currentThread().getName();
-            System.out.println("Nombre del hilo FacturaService: " + hilo);
-            System.out.println("ID: " + Thread.currentThread().threadId());
-            
-            /*
-            FACTURA
-            */
-            Factura factura = new Factura();
-            factura.setFecha(LocalDate.now());
-            factura.setNumero("0002-033");
-            factura.setRuc("13235654987");
+            Factura f = new Factura();
+            f.setFecha(LocalDate.now());
+            f.setNumero("1111-2222");
+            f.setRuc("01236544563210");
 
-            this.facturaService.guardar(factura);
+            Mail m = new Mail();
+            m.setCorreoOrigen("origin@mail.com");
+            m.setCorreoDestino("destiny@mail.com");
+            m.setAsunto("Factura de compra");
+            m.setTexto("Gracias por su visita! Su orden de compra es por el valor de $15");
+            m.setFecha(LocalDate.now());
 
-            Factura fact = this.facturaService.buscarPorId(1);
-            System.out.println(fact.getNumero());
+            Reporte r = new Reporte();
+            r.setTitulo("Reporte de venta");
+            r.setCategoria("VENTAS");
+            r.setTexto("Venta registrada por el valor de $15");
+            r.setAutor("RV. David");
+            r.setFechaCreacion(LocalDateTime.now());
 
-            /*
-            MAIL
-            */
-            Mail m1 = new Mail();
-            m1.setCorreoOrigen("correo1@uce.edu.ec");
-            m1.setCorreoDestino("correo2@uce.edu.ec");
-            m1.setAsunto("Locura");
-            m1.setTexto("Buenas noches mis panas, Ecuador le ganó 2-1 a Alemania");
-            m1.setFecha(LocalDate.now());
+            this.facturaService.generarFacturaReporteMail(f, m, r);
 
-            this.mailService.guardar(m1);
-
-            System.out.println(this.mailService.buscarPorId(1).getTexto());
-
-            /*
-            REPORTE
-            */
-            Reporte r1 = new Reporte();
-            r1.setTitulo("Reporte de contabilidad");
-            r1.setCategoria("ENVIADO");
-            r1.setTexto("El reporte de contabilidad del departamento B1 indica que no hay errores contables");
-            r1.setAutor("Lcdo. Salas");
-            r1.setFechaCreacion(LocalDateTime.now());
-
-            this.reporteService.guardar(r1);
-
-            System.out.println(this.reporteService.buscarPorId(1).getTitulo());
+            System.out.println("\nCerrando aplicación\n");
 
             return 0;
         }

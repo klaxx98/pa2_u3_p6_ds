@@ -53,6 +53,37 @@ public class FacturaService {
 
     }
 
+    @MedirTiempo
+    public void guardarFactura(Factura factura) {
+        String hilo = Thread.currentThread().getName();
+        System.out.println("Nombre del hilo FacturaService: "+hilo);
+        System.out.println("ID: " + Thread.currentThread().threadId());
+        this.facturaRepo.persist(factura);
+
+    }
+
+    // Método con 4 - 5 métodos internos
+    @MedirTiempo
+    public void generarFacturaReporteMail(Factura factura, Mail mail, Reporte reporte) {
+
+        String hilo = Thread.currentThread().getName();
+        System.out.println("Nombre del hilo FacturaReporteMail: " + hilo);
+        System.out.println("ID del hilo: " + Thread.currentThread().threadId());
+
+        System.out.println("\nGenerando factura de venta");
+
+        this.guardarFactura(factura);
+        this.mailService.guardar(mail);
+        this.reporteService.guardar(reporte);
+
+        System.out.println("\nGenerando reporte de venta realizada con Id: " + reporte.getId());
+        System.out.println(this.reporteService.buscarPorId(reporte.getId()));
+
+        System.out.println("Enviando factura electrónica al correo: " + mail.getCorreoDestino());
+        System.out.println(this.mailService.buscarPorId(mail.getId()));
+
+    }
+
     public Factura buscarPorId(Integer id) {
         return this.facturaRepo.findById(id);
 

@@ -25,7 +25,11 @@ public class ReporteService {
 
     }
 
+    @MedirTiempo
     public Reporte buscarPorId(Integer id) {
+        String hilo = Thread.currentThread().getName();
+        System.out.println("Nombre del hilo buscarPorIdReporte: "+hilo);
+        System.out.println("ID: " + Thread.currentThread().threadId());
         return this.reporteRepo.findById(id);
         
     }
