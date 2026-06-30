@@ -36,13 +36,17 @@ public class Main {
         public int run(String... args) throws Exception {
 
             System.out.println("Abriendo proyecto");
+
+            String hilo = Thread.currentThread().getName();
+            System.out.println("Nombre del hilo FacturaService: " + hilo);
+            System.out.println("ID: " + Thread.currentThread().threadId());
             
             /*
             FACTURA
             */
             Factura factura = new Factura();
             factura.setFecha(LocalDate.now());
-            factura.setNumero("0001-003");
+            factura.setNumero("0002-033");
             factura.setRuc("13235654987");
 
             this.facturaService.guardar(factura);

@@ -5,7 +5,10 @@ import java.time.LocalDateTime;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
 @Entity
@@ -14,6 +17,8 @@ public class Reporte extends PanacheEntityBase {
 
     @Id
     @Column(name="repo_id")
+    @SequenceGenerator(name="seq_reporte_generator", sequenceName="seq_reporte", allocationSize=1)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq_reporte_generator")
     private Integer id;
 
     @Column(name="repo_titulo")

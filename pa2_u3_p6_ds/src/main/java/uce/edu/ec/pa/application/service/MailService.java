@@ -7,6 +7,7 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import uce.edu.ec.pa.domain.model.Mail;
 import uce.edu.ec.pa.infrastructure.repository.MailRepositoryImpl;
+import uce.edu.ec.pa.infrastructure.repository.MedirTiempo;
 
 @ApplicationScoped
 @Transactional
@@ -15,7 +16,11 @@ public class MailService {
     @Inject
     private MailRepositoryImpl mailRepo;
 
+    @MedirTiempo
     public void guardar(Mail mail) {
+        String hilo = Thread.currentThread().getName();
+        System.out.println("Nombre del hilo MailService: "+hilo);
+        System.out.println("ID: " + Thread.currentThread().threadId());
         mail.persist();
 
     }

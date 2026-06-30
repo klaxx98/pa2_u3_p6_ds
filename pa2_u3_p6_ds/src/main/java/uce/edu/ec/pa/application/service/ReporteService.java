@@ -6,6 +6,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import uce.edu.ec.pa.domain.model.Reporte;
+import uce.edu.ec.pa.infrastructure.repository.MedirTiempo;
 import uce.edu.ec.pa.infrastructure.repository.ReporteRepositoryImpl;
 
 @ApplicationScoped
@@ -15,7 +16,11 @@ public class ReporteService {
     @Inject
     private ReporteRepositoryImpl reporteRepo;
 
+    @MedirTiempo
     public void guardar(Reporte reporte) {
+        String hilo = Thread.currentThread().getName();
+        System.out.println("Nombre del hilo ReporteService: "+hilo);
+        System.out.println("ID: " + Thread.currentThread().threadId());
         reporte.persist();
 
     }
