@@ -7,7 +7,7 @@ import io.quarkus.runtime.Quarkus;
 import io.quarkus.runtime.QuarkusApplication;
 import io.quarkus.runtime.annotations.QuarkusMain;
 import jakarta.inject.Inject;
-import uce.edu.ec.pa.application.service.FacturaService;
+import uce.edu.ec.pa.application.service.FacturaServiceParalelo;
 import uce.edu.ec.pa.domain.model.Factura;
 import uce.edu.ec.pa.domain.model.Mail;
 import uce.edu.ec.pa.domain.model.Reporte;
@@ -22,7 +22,7 @@ public class Main {
     public static class App implements QuarkusApplication {
 
         @Inject
-        private FacturaService facturaService;
+        private FacturaServiceParalelo FacturaServiceParalelo;
 
         @Override
         public int run(String... args) throws Exception {
@@ -48,7 +48,7 @@ public class Main {
             r.setAutor("RV. David");
             r.setFechaCreacion(LocalDateTime.now());
 
-            this.facturaService.generarFacturaReporteMail(f, m, r);
+            this.FacturaServiceParalelo.guardar(f);
 
             System.out.println("\nCerrando aplicación\n");
 
