@@ -2,9 +2,7 @@ package uce.edu.ec.pa.application.service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.CompletableFuture;
 
 import jakarta.enterprise.context.Dependent;
 import jakarta.inject.Inject;
@@ -15,19 +13,19 @@ import uce.edu.ec.pa.infrastructure.repository.FacturaRepositoryImpl;
 import uce.edu.ec.pa.infrastructure.repository.MedirTiempo;
 
 @Dependent
-public class FacturaServiceParalelo {
+public class FacturaServiceCompletableFuture {
 
     @Inject
     private FacturaRepositoryImpl facturaRepo;
 
     @Inject
-    private ReporteServiceTarea reporteServiceTarea;
+    private ReporteService reporteService;
 
     @Inject
-    private MailServiceTarea mailServiceTarea;
+    private MailService mailService;
 
     @MedirTiempo
-    public void guardar(Factura factura) throws Exception {
+    public void guardar(Factura factura) {
 
         String hilo = Thread.currentThread().getName();
         System.out.println("Nombre del hilo FacturaService: "+hilo);
@@ -35,16 +33,13 @@ public class FacturaServiceParalelo {
 
         this.facturaRepo.persist(factura);
 
-        ExecutorService executorService = Executors.newFixedThreadPool(2);
-
         Reporte reporte = new Reporte();
         reporte.setTitulo("Reporte Factura 1");
         reporte.setCategoria("Facturación");
         reporte.setTexto("Texto autogenerado del reporte de la factura");
         reporte.setAutor("JJ");
         reporte.setFechaCreacion(LocalDateTime.now());
-        reporteServiceTarea.setReporte(reporte);
-        Future<?> futureReporte = executorService.submit(reporteServiceTarea);
+        CompletableFuture<Void> completableReporte = CompletableFuture.runAsync(()->this.reporteService.guardar(reporte));
 
         Mail mail = new Mail();
         mail.setCorreoOrigen("jj@uce.com");
@@ -52,15 +47,10 @@ public class FacturaServiceParalelo {
         mail.setAsunto("Factura");
         mail.setTexto("Se ha generado la factura de su compra");
         mail.setFecha(LocalDate.now());
-        mailServiceTarea.setMail(mail);
-        Future<?> futureMail = executorService.submit(mailServiceTarea);
-
-        // Se encarga de verificar que se terminen las tareas asignadas
-        futureReporte.get();
-        futureMail.get();
-
-        // Cerrar el proceso de ejecucion
-        executorService.shutdown();
+        CompletableFuture<Void> completableMail = CompletableFuture.runAsync(()->mailService.guardar(mail));
+        
+        // Espera a que los hilos asignados terminen su ejecución
+        CompletableFuture.allOf(completableReporte, completableMail).join();
 
     }
 

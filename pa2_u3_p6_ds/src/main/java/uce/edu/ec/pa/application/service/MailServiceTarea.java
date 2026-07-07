@@ -1,23 +1,24 @@
 package uce.edu.ec.pa.application.service;
 
+import jakarta.enterprise.context.Dependent;
 import uce.edu.ec.pa.domain.model.Mail;
 
+@Dependent
 public class MailServiceTarea implements Runnable {
 
-    //@Inject
     private MailService mailService;
 
     private Mail mail;
 
-    public MailServiceTarea(MailService mailService, Mail mail) {
-        this.mailService = mailService;
+    public void setMail(Mail mail) {
         this.mail = mail;
-        
+
     }
 
     @Override
     public void run() {
-        System.out.println(this.mailService);
+        String hilo = Thread.currentThread().getName();
+        System.out.println("Nombre del hilo MailServiceTarea: "+hilo);
         this.mailService.guardar(this.mail);
 
     }
