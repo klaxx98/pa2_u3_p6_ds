@@ -4,6 +4,7 @@ import jakarta.annotation.Priority;
 import jakarta.interceptor.AroundInvoke;
 import jakarta.interceptor.Interceptor;
 import jakarta.interceptor.InvocationContext;
+import java.util.Arrays;
 
 @MedirTiempo
 @Interceptor
@@ -18,6 +19,7 @@ public class MedirTiempoInterceptor {
         } finally {
             long fin = System.currentTimeMillis();
             System.out.println("Tiempo de ejecución " + context.getMethod().getName() + ": " + (fin - inicio) + " ms");
+            System.out.println("Argumentos del método " + context.getMethod().getName() + ": " + Arrays.toString(context.getParameters()));
         }
     }
 
