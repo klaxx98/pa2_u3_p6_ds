@@ -9,6 +9,7 @@ import jakarta.inject.Inject;
 import uce.edu.ec.pa.domain.model.Factura;
 import uce.edu.ec.pa.domain.model.Mail;
 import uce.edu.ec.pa.domain.model.Reporte;
+import uce.edu.ec.pa.infrastructure.repository.Auditoria;
 import uce.edu.ec.pa.infrastructure.repository.FacturaRepositoryImpl;
 import uce.edu.ec.pa.infrastructure.repository.MedirTiempo;
 
@@ -25,6 +26,7 @@ public class FacturaServiceCompletableFuture {
     private MailService mailService;
 
     @MedirTiempo
+    @Auditoria
     public void guardar(Factura factura) {
 
         String hilo = Thread.currentThread().getName();

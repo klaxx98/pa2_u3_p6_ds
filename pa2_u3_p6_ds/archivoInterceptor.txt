@@ -1,0 +1,4 @@
+Nombre del método: GUARDAR
+Argumentos del método: [Estudiante [id=2, apellido=apellido, nombre=nombre, curso=curso]]
+Fecha y hora de ejecución: 2026-07-08T19:24:30.243812700
+Tiempo de ejecución: 2 ms

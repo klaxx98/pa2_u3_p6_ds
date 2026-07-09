@@ -6,6 +6,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import uce.edu.ec.pa.domain.model.Estudiante;
+import uce.edu.ec.pa.infrastructure.repository.ArchivoInterceptor;
+import uce.edu.ec.pa.infrastructure.repository.Auditoria;
 import uce.edu.ec.pa.infrastructure.repository.EstudianteRepositoryImpl;
 
 @ApplicationScoped
@@ -16,12 +18,15 @@ public class EstudianteService {
     private EstudianteRepositoryImpl estudianteRepo;
 
     // CREAR
+    @Auditoria
+    @ArchivoInterceptor
     public void guardar(Estudiante estudiante) {
         this.estudianteRepo.persist(estudiante);
 
     }
 
     // ACTUALIZAR
+    @Auditoria
     public void actualizar(Integer id, String apellido, String nombre, String curso) {
         Estudiante estudiante = this.estudianteRepo.findById(id);
         if (estudiante != null) {
@@ -34,6 +39,7 @@ public class EstudianteService {
     }
 
     // BORRAR
+    @Auditoria
     public void borrar(Integer id) {
         this.estudianteRepo.deleteById(id);
 
