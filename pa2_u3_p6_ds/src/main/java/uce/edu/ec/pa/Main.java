@@ -1,11 +1,15 @@
 package uce.edu.ec.pa;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 import io.quarkus.runtime.Quarkus;
 import io.quarkus.runtime.QuarkusApplication;
 import io.quarkus.runtime.annotations.QuarkusMain;
 import jakarta.inject.Inject;
-import uce.edu.ec.pa.application.service.EstudianteService;
-import uce.edu.ec.pa.domain.model.Estudiante;
+import uce.edu.ec.pa.application.service.ReporteService;
+import uce.edu.ec.pa.domain.model.Reporte;
 
 @QuarkusMain
 public class Main {
@@ -17,30 +21,27 @@ public class Main {
     public static class App implements QuarkusApplication {
 
         @Inject
-        private EstudianteService estudianteService;
+        private ReporteService reporteService;
 
         @Override
         public int run(String... args) throws Exception {
 
             System.out.println("\nIniciando aplicación\n");
 
-            Estudiante estudiante = new Estudiante();
-            estudiante.setApellido("Salazar");
-            estudiante.setNombre("David");
-            estudiante.setCurso("Programacion Avanzada 2");
+            List<Reporte> lista = new ArrayList<>();
 
-            this.estudianteService.guardar(estudiante);
+            for (int i = 1; i < 10; i++) {
+                Reporte r = new Reporte();
+                r.setTitulo("titulo" + i);
+                r.setCategoria("categoria" + i);
+                r.setTexto("texto" + i);
+                r.setAutor("autor" + i);
+                r.setFechaCreacion(LocalDateTime.now());
+                lista.add(r);
 
-            this.estudianteService.actualizar(1, "Intriago", "Alexander", "Programacion WEB");
+            }
 
-            Estudiante estudiante2 = new Estudiante();
-            estudiante2.setApellido("apellido");
-            estudiante2.setNombre("nombre");
-            estudiante2.setCurso("curso");
-
-            this.estudianteService.guardar(estudiante2);
-
-            this.estudianteService.borrar(2);
+            this.reporteService.guardarListaDeReportes(lista);
 
             System.out.println("\nCerrando aplicación\n");
 

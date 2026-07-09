@@ -1,7 +1,6 @@
 package uce.edu.ec.pa.infrastructure.repository;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 
 import jakarta.annotation.Priority;
 import jakarta.enterprise.context.Dependent;
@@ -32,7 +31,7 @@ public class AuditoriaInterceptor {
             
             Auditoria auditoria = new Auditoria();
             auditoria.setNombreMetodo(context.getMethod().getName());
-            auditoria.setArgumentos(Arrays.toString(context.getParameters()));
+            auditoria.setArgumentos(null);
             auditoria.setFechaHoraEjecucion(LocalDateTime.now());
             long total = fin - inicio;
             auditoria.setTiempoEjecucionMs(total);
