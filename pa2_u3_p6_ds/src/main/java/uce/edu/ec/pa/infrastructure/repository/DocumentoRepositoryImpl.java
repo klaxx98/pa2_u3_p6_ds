@@ -3,10 +3,10 @@ package uce.edu.ec.pa.infrastructure.repository;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
-import uce.edu.ec.pa.domain.model.Reporte;
+import uce.edu.ec.pa.domain.model.Documento;
 
-@Transactional
 @ApplicationScoped
-public class ReporteRepositoryImpl implements PanacheRepositoryBase<Reporte, Integer> {
+@Transactional
+public class DocumentoRepositoryImpl implements PanacheRepositoryBase<Documento, Integer> {
 
 }
