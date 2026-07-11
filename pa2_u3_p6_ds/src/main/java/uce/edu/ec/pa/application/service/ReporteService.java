@@ -24,7 +24,7 @@ public class ReporteService {
         System.out.println("ID: " + Thread.currentThread().threadId());
 
         try {
-            Thread.sleep(300);
+            Thread.sleep(0);
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -38,6 +38,14 @@ public class ReporteService {
         for (Reporte p : lista) {
             this.guardar(p);
         } 
+    }
+
+    @Auditoria
+    public void guardarListaDeReportesParalelo(List<Reporte> lista) {
+        lista.parallelStream().forEach(rep-> {
+            // Dentro de la expresión Lambda se programa la lógica que se aplica a cada item de la lista
+            this.guardar(rep);
+        });
     }
 
     @MedirTiempo

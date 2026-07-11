@@ -22,7 +22,7 @@ public class DocumentoService {
         System.out.println("ID: " + Thread.currentThread().threadId());
 
         try {
-            Thread.sleep(50);
+            Thread.sleep(1500);
         } catch (Exception e) {
             e.printStackTrace();
         }
