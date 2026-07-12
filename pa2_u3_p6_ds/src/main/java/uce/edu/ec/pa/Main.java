@@ -40,7 +40,11 @@ public class Main {
 
             }
 
-            this.documentoService.guardarListaDocumentos(listaDocumentos);            
+            this.documentoService.guardarListaDocumentosParalelo(listaDocumentos);
+            
+            // 500000 DOCUMENTOS SIN SlEEP
+            // SECUENCIAL HILO PRINCIPAL: 104278 ms
+            // PARALELO FORK-JOIN: 67571 ms
 
             System.out.println("\nCerrando aplicación\n");
 
