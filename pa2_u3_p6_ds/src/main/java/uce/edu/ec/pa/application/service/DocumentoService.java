@@ -21,22 +21,27 @@ public class DocumentoService {
         System.out.println("Nombre del hilo DocumentoService: " + hilo);
         System.out.println("ID: " + Thread.currentThread().threadId());
 
-        try {
-            Thread.sleep(1500);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         this.documentoRepo.persist(documento);
 
     }
 
+    // SECUENCIAL HILO PRINCIPAL
     @Auditoria
     public void guardarListaDocumentos(List<Documento> lista) {
         for (Documento d : lista) {
             this.guardar(d);
 
         }
+
+    }
+
+    // CONCURRENTE FORK-JOIN
+    @Auditoria
+    public void guardarListaDocumentosParalelo(List<Documento> lista) {
+        lista.parallelStream().forEach(doc -> {
+            this.guardar(doc);
+
+        });
 
     }
 

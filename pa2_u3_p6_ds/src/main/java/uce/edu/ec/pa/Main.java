@@ -1,6 +1,6 @@
 package uce.edu.ec.pa;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,8 +8,8 @@ import io.quarkus.runtime.Quarkus;
 import io.quarkus.runtime.QuarkusApplication;
 import io.quarkus.runtime.annotations.QuarkusMain;
 import jakarta.inject.Inject;
-import uce.edu.ec.pa.application.service.ReporteService;
-import uce.edu.ec.pa.domain.model.Reporte;
+import uce.edu.ec.pa.application.service.DocumentoService;
+import uce.edu.ec.pa.domain.model.Documento;
 
 @QuarkusMain
 public class Main {
@@ -21,46 +21,26 @@ public class Main {
     public static class App implements QuarkusApplication {
 
         @Inject
-        private ReporteService reporteService;
+        private DocumentoService documentoService;
 
         @Override
         public int run(String... args) throws Exception {
 
             System.out.println("\nIniciando aplicación\n");
 
-            List<Reporte> listaReportes = new ArrayList<>();
+            List<Documento> listaDocumentos = new ArrayList<>();
 
-            for (int i = 1; i < 10001; i++) {
-                Reporte r = new Reporte();
-                r.setTitulo("titulo: " + i);
-                r.setCategoria("categoria: " + i);
-                r.setTexto("texto: " + i);
-                r.setAutor("autor: " + i);
-                r.setFechaCreacion(LocalDateTime.now());
-                listaReportes.add(r);
+            for (int i = 1; i < 500001; i++) {
+                Documento d = new Documento();
+                d.setTitulo("titulo: " + i);
+                d.setTexto("texto: " + i);
+                d.setFirma("firma: " + i);
+                d.setFecha(LocalDate.now());
+                listaDocumentos.add(d);
 
             }
 
-            this.reporteService.guardarListaDeReportesParalelo(listaReportes);
-
-            // 100 REPORTES
-            // sin sleep
-            // 1 hilo: 165 ms
-            // paralelo: 214 ms
-
-            // con sleep: 1500 ms
-            // 1 hilo: 2.50 minutos
-            // paralelo: 7.64 segundos
-
-            // 10000 REPORTES
-            // sin sleep
-            // 1 hilo: 2975 ms
-            // paralelo: 1883 ms
-
-            // 100000 REPORTES
-            // sin sleep
-            // 1 hilo: 21853 ms
-            // paralelo: 15286 ms
+            this.documentoService.guardarListaDocumentos(listaDocumentos);            
 
             System.out.println("\nCerrando aplicación\n");
 

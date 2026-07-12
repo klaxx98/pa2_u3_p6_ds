@@ -31,7 +31,7 @@ public class AuditoriaInterceptor {
             
             Auditoria auditoria = new Auditoria();
             auditoria.setNombreMetodo(context.getMethod().getName());
-            auditoria.setArgumentos(null);
+            auditoria.setArgumentos(context.getMethod().getName());
             auditoria.setFechaHoraEjecucion(LocalDateTime.now());
             long total = fin - inicio;
             auditoria.setTiempoEjecucionMs(total);
